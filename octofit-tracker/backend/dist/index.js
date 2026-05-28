@@ -8,6 +8,14 @@ import leaderboardRouter from './routes/leaderboard.js';
 const app = express();
 const port = 8000;
 const mongoUrl = 'mongodb://127.0.0.1:27017/octofit_db';
+// Determine API base URL based on Codespaces or localhost
+const getApiBaseUrl = () => {
+    const codespaceId = process.env.CODESPACE_NAME;
+    if (codespaceId) {
+        return `https://${codespaceId}-8000.app.github.dev`;
+    }
+    return `http://localhost:${port}`;
+};
 app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/teams', teamsRouter);
@@ -16,6 +24,13 @@ app.use('/api/workouts', workoutsRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.get('/', (req, res) => {
     res.send({ status: 'OctoFit Tracker backend is running' });
+});
+app.get('/api/config', (req, res) => {
+    res.json({
+        apiBaseUrl: getApiBaseUrl(),
+        codespaceId: process.env.CODESPACE_NAME || null,
+        environment: process.env.CODESPACE_NAME ? 'codespaces' : 'localhost'
+    });
 });
 mongoose.connect(mongoUrl)
     .then(() => {

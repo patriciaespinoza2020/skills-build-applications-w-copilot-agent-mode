@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { Team } from '../models/Team';
-import { User } from '../models/User';
-import { Activity } from '../models/Activity';
-import { Workout } from '../models/Workout';
+import { Team } from '../models/Team.js';
+import { User } from '../models/User.js';
+import { Activity } from '../models/Activity.js';
+import { Workout } from '../models/Workout.js';
 const mongoUrl = 'mongodb://127.0.0.1:27017/octofit_db';
 const teams = [
     { name: 'OctoRunners', description: 'Fast and focused team for daily goals.' },
